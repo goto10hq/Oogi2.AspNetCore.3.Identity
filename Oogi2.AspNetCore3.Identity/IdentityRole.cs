@@ -1,0 +1,13 @@
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+
+namespace Oogi2.AspNetCore3.Identity
+{
+    public class IdentityRole
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string NormalizedName { get; set; }
+        public IList<Claim> Claims { get; set; } = new List<Claim>();
+    }
+}

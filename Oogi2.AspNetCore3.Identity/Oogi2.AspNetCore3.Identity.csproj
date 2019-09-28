@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <PackageId>Oogi2.AspNetCore3.Identity</PackageId>
+    <Title>Oogi2.AspNetCore3.Identity</Title>
+    <Version>1.0.0</Version>
+    <Authors>frohikey</Authors>
+    <PackageLicenseUrl>https://github.com/goto10hq/Oogi2.AspNetCore3.Identity/blob/master/LICENSE</PackageLicenseUrl>
+    <Owners>Goto10</Owners>
+    <PackageProjectUrl>https://github.com/goto10hq/Oogi2.AspNetCore3.Identity</PackageProjectUrl>
+    <Summary>ASP.NET Core 3.0 Identity for DocumentDB based on Oogi2.</Summary>
+    <Description>ASP.NET Core 3.0 Identity for Cosmos/DocumentDB powered by Oogi2.</Description>
+    <PackageTags>cosmosdb documentdb asp.net core identity</PackageTags>
+    <Copyright>Copyright (c) 2019 Goto10 s.r.o.</Copyright>
+    <Company>Goto10</Company>
+    <RepositoryUrl>https://github.com/goto10hq/Oogi2.AspNetCore3.Identity</RepositoryUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/goto10hq/Oogi2.AspNetCore3.Identity/master/oogi2.aspnetcoreidentity-icon.png</PackageIconUrl>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyName>Oogi2.AspNetCore3.Identity</AssemblyName>
+    <RootNamespace>Oogi2.AspNetCore3.Identity</RootNamespace>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>    
+    <PackageReference Include="Oogi2" Version="1.4.1" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Oogi2.AspNetCore3.Identity/bin
+/Oogi2.AspNetCore3.Identity/obj
+/Oogi2.AspNetCore3.Identity.Tests/obj
+/Oogi2.AspNetCore3.Identity.Tests/bin
