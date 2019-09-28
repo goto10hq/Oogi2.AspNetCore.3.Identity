@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <PackageId>Oogi2.AspNetCore3.Identity</PackageId>
+    <IsPackable>true</IsPackable>
     <Title>Oogi2.AspNetCore3.Identity</Title>
     <Version>1.0.0</Version>
     <Authors>frohikey</Authors>
