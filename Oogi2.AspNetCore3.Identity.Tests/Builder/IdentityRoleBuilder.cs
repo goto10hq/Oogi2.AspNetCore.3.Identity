@@ -41,7 +41,7 @@ namespace Oogi2.AspNetCore3.Identity.Tests.Builder
 
         public DocumentDbIdentityRoleBuilder WithNormalizedRoleName(string normalizedRoleName = null)
         {
-            LookupNormalizer normalizer = new LookupNormalizer();
+            LookupNormalizer normalizer = new();
 
             identityRole.NormalizedName = normalizedRoleName ?? normalizer.Normalize(identityRole.Name);
 
@@ -50,7 +50,7 @@ namespace Oogi2.AspNetCore3.Identity.Tests.Builder
 
         public DocumentDbIdentityRoleBuilder AddClaim(string type, string value = null)
         {
-            Claim claim = new Claim(type ?? Guid.NewGuid().ToString(), value ?? Guid.NewGuid().ToString());
+            Claim claim = new(type ?? Guid.NewGuid().ToString(), value ?? Guid.NewGuid().ToString());
             identityRole.Claims.Add(claim);
 
             return this;

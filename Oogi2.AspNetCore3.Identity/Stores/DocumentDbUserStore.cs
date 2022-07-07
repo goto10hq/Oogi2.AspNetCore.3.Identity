@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Security.Claims;
-using Sushi2;
 using Oogi2.Queries;
+using Oogi2.Entities;
 
 namespace Oogi2.AspNetCore3.Identity.Stores
 {
@@ -15,14 +15,14 @@ namespace Oogi2.AspNetCore3.Identity.Stores
     /// </summary>
     /// <typeparam name="TUser">The type representing a user</typeparam>
     public class DocumentDbUserStore<TUser> : DocumentDbUserStore<TUser, IdentityRole>
-        where TUser : IdentityUser
+        where TUser : IdentityUser, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentDbUserStore{TUser}"/>
         /// </summary>
         /// <param name="connection">The DocumentDb client to be used</param>
-        public DocumentDbUserStore(IConnection connection)
-            : base(connection)
+        public DocumentDbUserStore(IConnection connection, string userEntity, string roleEntity)
+            : base(connection, userEntity, roleEntity)
         {
         }
     }
@@ -44,28 +44,33 @@ namespace Oogi2.AspNetCore3.Identity.Stores
         IUserPhoneNumberStore<TUser>,
         IUserEmailStore<TUser>,
         IUserLockoutStore<TUser>
-        where TUser : IdentityUser<TRole>
-        where TRole : IdentityRole
+        where TUser : IdentityUser<TRole>, new()
+        where TRole : IdentityRole, new()
     {
-        IRoleStore<TRole> _roleStore;
-        Repository<TUser> _repository;
-        Repository<SubUser<TUser>> _subRepository;
+        readonly IRoleStore<TRole> _roleStore;
+        readonly Repository<TUser> _repository;
+        readonly Repository<SubUser<TUser>> _subRepository;
+        readonly string _userEntity = null;
 
-        class SubUser<TSub>
+        class SubUser<TSub> : BaseEntity
         {
             public TSub C { get; set; }
+
+            public override string PartitionKey => throw new NotImplementedException();
+            public override string Entity => throw new NotImplementedException();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentDbUserStore{TUser, TRole}"/>
         /// </summary>
         /// <param name="connection">The DocumentDb client to be used</param>
-        public DocumentDbUserStore(IConnection connection)
+        public DocumentDbUserStore(IConnection connection, string userEntity, string roleEntity)
             : base(connection)
         {
             _repository = new Repository<TUser>(connection);
-            _roleStore = new DocumentDbRoleStore<TRole>(connection);
+            _roleStore = new DocumentDbRoleStore<TRole>(connection, roleEntity);
             _subRepository = new Repository<SubUser<TUser>>(connection);
+            _userEntity = userEntity;
         }
 
         public async Task<IdentityResult> CreateAsync(TUser user, CancellationToken cancellationToken)
@@ -290,7 +295,7 @@ namespace Oogi2.AspNetCore3.Identity.Stores
                }
                );
 
-            var s = dynamicQuery.ToSqlQuerySpec().ToSqlQuery();
+            var s = dynamicQuery.ToSqlQuery();
 
             var users = await _subRepository.GetListAsync(dynamicQuery).ConfigureAwait(false);
 
@@ -776,18 +781,16 @@ namespace Oogi2.AspNetCore3.Identity.Stores
         {
             get
             {
-                var atr = typeof(TUser).GetAttribute<Attributes.EntityTypeAttribute>();
-
-                if (atr != null)
+                if (_userEntity != null)
                 {
-                    var q = new DynamicQuery($" and c[\"{atr.Name}\"] = @val ", new { val = atr.Value });
+                    var q = new DynamicQuery($" and c[\"entity\"] = @val ", new { val = _userEntity });
 
                     var sql = q.ToSqlQuery();
 
                     return sql;
                 }
 
-                return null;
+                return null;                
             }
         }
 

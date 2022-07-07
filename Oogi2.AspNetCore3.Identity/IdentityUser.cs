@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Oogi2.Entities;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -15,7 +16,7 @@ namespace Oogi2.AspNetCore3.Identity
     /// <summary>
     /// Represents a user in the identity system for the <see cref="Stores.DocumentDbUserStore{TUser, TRole}"/>
     /// </summary>
-    public class IdentityUser<TRole>
+    public class IdentityUser<TRole> : BaseEntity
     {
         public string Id { get; set; }
         public string UserName { get; set; }
@@ -34,5 +35,21 @@ namespace Oogi2.AspNetCore3.Identity
         public bool LockoutEnabled { get; set; }
         public DateTimeOffset? LockoutEndDate { get; set; }
         public int AccessFailedCount { get; set; }
+
+        public override string PartitionKey => _partitionKey;
+        public override string Entity => _entity;
+
+        readonly string _partitionKey = string.Empty;
+        readonly string _entity = string.Empty;
+
+        public IdentityUser()
+        {
+        }
+
+        public IdentityUser(string entity, string partitionKey = null)
+        {
+            _entity = entity;
+            _partitionKey = partitionKey;
+        }
     }
 }

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Security.Claims;
 using Oogi2.Queries;
-using Sushi2;
 
 namespace Oogi2.AspNetCore3.Identity.Stores
 {
@@ -14,21 +13,23 @@ namespace Oogi2.AspNetCore3.Identity.Stores
     /// </summary>
     /// <typeparam name="TRole">The type representing a role</typeparam>
     public class DocumentDbRoleStore<TRole> : StoreBase, IRoleClaimStore<TRole>
-        where TRole : IdentityRole
+        where TRole : IdentityRole, new()
     {
-        Repository<TRole> _repository;
+        readonly Repository<TRole> _repository;
+        readonly string _entity = null;        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentDbRoleStore{TRole}"/>
         /// </summary>
         /// <param name="connection">The DocumentDb client to be used</param>
-        public DocumentDbRoleStore(IConnection connection)
+        public DocumentDbRoleStore(IConnection connection, string entity)
             : base(connection)
         {
             _repository = new Repository<TRole>(connection);
+            _entity = entity;
         }
 
-        public Task<IList<Claim>> GetClaimsAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<IList<Claim>> GetClaimsAsync(TRole role, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
@@ -41,7 +42,7 @@ namespace Oogi2.AspNetCore3.Identity.Stores
             return Task.FromResult(role.Claims);
         }
 
-        public Task AddClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default(CancellationToken))
+        public Task AddClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
@@ -61,7 +62,7 @@ namespace Oogi2.AspNetCore3.Identity.Stores
             return Task.CompletedTask;
         }
 
-        public Task RemoveClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default(CancellationToken))
+        public Task RemoveClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
@@ -225,12 +226,10 @@ namespace Oogi2.AspNetCore3.Identity.Stores
         string EntityTypeConstraint
         {
             get
-            {
-                var atr = typeof(TRole).GetAttribute<Attributes.EntityTypeAttribute>();
-
-                if (atr != null)
+            {                
+                if (_entity != null)
                 {
-                    var q = new DynamicQuery($" and c[\"{atr.Name}\"] = @val ", new { val = atr.Value });
+                    var q = new DynamicQuery($" and c[\"entity\"] = @val ", new { val = _entity });
 
                     var sql = q.ToSqlQuery();
 

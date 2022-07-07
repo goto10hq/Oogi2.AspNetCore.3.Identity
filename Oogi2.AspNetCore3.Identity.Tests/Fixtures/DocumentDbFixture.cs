@@ -17,24 +17,11 @@ namespace Oogi2.AspNetCore3.Identity.Tests.Fixtures
                 .AddEnvironmentVariables()
                 .Build();
 
-            Connection = new Connection(appSettings["endpoint"], appSettings["authorizationKey"], appSettings["database"], appSettings["collection"]);
-
-            CreateTestDatabase();
+            Connection = new Connection(appSettings["endpoint"], appSettings["authorizationKey"], appSettings["database"], appSettings["collection"], "/partitionKey");            
         }
-
-        void CreateTestDatabase()
-        {
-            Connection.CreateCollection();
-        }
-
-        void CleanupTestDatabase()
-        {
-            Connection.DeleteCollection();
-        }
-
+        
         public void Dispose()
-        {
-            CleanupTestDatabase();
+        {            
         }
     }
 }

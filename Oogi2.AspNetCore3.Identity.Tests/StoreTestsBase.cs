@@ -2,6 +2,7 @@
 using Oogi2.AspNetCore3.Identity.Tests.Fixtures;
 using Xunit;
 using Oogi2.AspNetCore3.Identity.Tests.Entities;
+using Sushi2;
 
 namespace Oogi2.AspNetCore3.Identity.Tests
 {
@@ -9,7 +10,7 @@ namespace Oogi2.AspNetCore3.Identity.Tests
     {
         protected Repository<TestIdentityUser> _repoUsers;
         protected Repository<TestIdentityRole> _repoRoles;
-        Connection _connection;
+        readonly Connection _connection;
 
         protected StoreTestsBase(DocumentDbFixture documentDbFixture)
         {
@@ -20,22 +21,22 @@ namespace Oogi2.AspNetCore3.Identity.Tests
 
         protected void CreateDocument(TestIdentityUser user)
         {
-            _repoUsers.Create(user);
+            AsyncTools.RunSync(() => _repoUsers.CreateAsync(user));
         }
 
         protected void CreateDocument(TestIdentityRole role)
         {
-            _repoRoles.Create(role);
+            AsyncTools.RunSync(() => _repoRoles.CreateAsync(role));
         }
 
         protected DocumentDbUserStore<TestIdentityUser, TestIdentityRole> CreateUserStore()
         {
-            return new DocumentDbUserStore<TestIdentityUser, TestIdentityRole>(_connection);
+            return new DocumentDbUserStore<TestIdentityUser, TestIdentityRole>(_connection, "oogi2/user", "oogi2/role");
         }
 
         protected DocumentDbRoleStore<TestIdentityRole> CreateRoleStore()
         {
-            return new DocumentDbRoleStore<TestIdentityRole>(_connection);
+            return new DocumentDbRoleStore<TestIdentityRole>(_connection, "oogi2/role");
         }
     }
 }

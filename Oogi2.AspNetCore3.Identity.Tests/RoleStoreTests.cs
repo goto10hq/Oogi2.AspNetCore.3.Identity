@@ -130,7 +130,7 @@ namespace Oogi2.AspNetCore3.Identity.Tests
         [Fact]
         public async Task ShouldAddClaimToRole()
         {
-            Claim newClaim = new Claim(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            Claim newClaim = new(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
             var store = CreateRoleStore();
             TestIdentityRole targetRole = DocumentDbIdentityRoleBuilder.Create().WithId();
@@ -143,7 +143,7 @@ namespace Oogi2.AspNetCore3.Identity.Tests
         [Fact]
         public async Task ShouldRemoveClaimFromRole()
         {
-            Claim claimToRemove = new Claim(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            Claim claimToRemove = new(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
             DocumentDbRoleStore<TestIdentityRole> store = CreateRoleStore();
             TestIdentityRole targetRole = DocumentDbIdentityRoleBuilder.Create().WithId().AddClaim().AddClaim(claimToRemove).AddClaim();

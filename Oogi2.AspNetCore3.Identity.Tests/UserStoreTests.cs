@@ -260,7 +260,7 @@ namespace Oogi2.AspNetCore3.Identity.Tests
             var userStore = CreateUserStore();
             var targetUser = DocumentDbIdentityUserBuilder.Create().AddRole().AddRole();
 
-            bool isInRole = await userStore.IsInRoleAsync(targetUser, "NonExistantRoleName", CancellationToken.None);
+            bool isInRole = await userStore.IsInRoleAsync(targetUser, "NonExistentRoleName", CancellationToken.None);
 
             Assert.False(isInRole);
         }
@@ -308,6 +308,6 @@ namespace Oogi2.AspNetCore3.Identity.Tests
             IdentityUser<TestIdentityRole> foundUser = await userStore.FindByEmailAsync(targetUser.NormalizedEmail, CancellationToken.None);
 
             Assert.Equal(targetUser.Id, foundUser.Id);
-        }        
+        }
     }
 }
