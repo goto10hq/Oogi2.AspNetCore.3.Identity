@@ -21,8 +21,8 @@ namespace Oogi2.AspNetCore3.Identity.Stores
         /// Initializes a new instance of the <see cref="DocumentDbUserStore{TUser}"/>
         /// </summary>
         /// <param name="connection">The DocumentDb client to be used</param>
-        public DocumentDbUserStore(IConnection connection, string userEntity, string roleEntity)
-            : base(connection, userEntity, roleEntity)
+        public DocumentDbUserStore(IConnection connection)
+            : base(connection)
         {
         }
     }
@@ -64,13 +64,13 @@ namespace Oogi2.AspNetCore3.Identity.Stores
         /// Initializes a new instance of the <see cref="DocumentDbUserStore{TUser, TRole}"/>
         /// </summary>
         /// <param name="connection">The DocumentDb client to be used</param>
-        public DocumentDbUserStore(IConnection connection, string userEntity, string roleEntity)
+        public DocumentDbUserStore(IConnection connection)
             : base(connection)
         {
             _repository = new Repository<TUser>(connection);
-            _roleStore = new DocumentDbRoleStore<TRole>(connection, roleEntity);
+            _roleStore = new DocumentDbRoleStore<TRole>(connection);
             _subRepository = new Repository<SubUser<TUser>>(connection);
-            _userEntity = userEntity;
+            _userEntity = new TUser().Entity;
         }
 
         public async Task<IdentityResult> CreateAsync(TUser user, CancellationToken cancellationToken)

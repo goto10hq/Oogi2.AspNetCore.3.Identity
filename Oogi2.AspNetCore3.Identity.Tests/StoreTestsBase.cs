@@ -31,12 +31,12 @@ namespace Oogi2.AspNetCore3.Identity.Tests
 
         protected DocumentDbUserStore<TestIdentityUser, TestIdentityRole> CreateUserStore()
         {
-            return new DocumentDbUserStore<TestIdentityUser, TestIdentityRole>(_connection, "oogi2/user", "oogi2/role");
+            return new DocumentDbUserStore<TestIdentityUser, TestIdentityRole>(_connection);
         }
 
         protected DocumentDbRoleStore<TestIdentityRole> CreateRoleStore()
         {
-            return new DocumentDbRoleStore<TestIdentityRole>(_connection, "oogi2/role");
+            return new DocumentDbRoleStore<TestIdentityRole>(_connection);
         }
     }
 }

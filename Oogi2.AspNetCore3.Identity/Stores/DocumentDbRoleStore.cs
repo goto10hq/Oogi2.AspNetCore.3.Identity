@@ -22,11 +22,11 @@ namespace Oogi2.AspNetCore3.Identity.Stores
         /// Initializes a new instance of the <see cref="DocumentDbRoleStore{TRole}"/>
         /// </summary>
         /// <param name="connection">The DocumentDb client to be used</param>
-        public DocumentDbRoleStore(IConnection connection, string entity)
+        public DocumentDbRoleStore(IConnection connection)
             : base(connection)
         {
             _repository = new Repository<TRole>(connection);
-            _entity = entity;
+            _entity = new TRole().Entity;
         }
 
         public Task<IList<Claim>> GetClaimsAsync(TRole role, CancellationToken cancellationToken = default)
