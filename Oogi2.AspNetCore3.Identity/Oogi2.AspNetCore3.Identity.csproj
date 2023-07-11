@@ -5,7 +5,7 @@
     <PackageId>Oogi2.AspNetCore3.Identity</PackageId>
     <IsPackable>true</IsPackable>
     <Title>Oogi2.AspNetCore3.Identity</Title>
-    <Version>2.1.1</Version>
+    <Version>2.2.1</Version>
     <Authors>frohikey</Authors>
     <PackageLicenseUrl>https://github.com/goto10hq/Oogi2.AspNetCore3.Identity/blob/master/LICENSE</PackageLicenseUrl>
     <Owners>Goto10</Owners>
@@ -17,8 +17,8 @@
     <Company>Goto10</Company>
     <RepositoryUrl>https://github.com/goto10hq/Oogi2.AspNetCore3.Identity</RepositoryUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/goto10hq/Oogi2.AspNetCore3.Identity/master/oogi2.aspnetcoreidentity-icon.png</PackageIconUrl>
-    <AssemblyVersion>2.1.1.0</AssemblyVersion>
-    <FileVersion>2.1.1.0</FileVersion>
+    <AssemblyVersion>2.2.1.0</AssemblyVersion>
+    <FileVersion>2.2.1.0</FileVersion>
     <AssemblyName>Oogi2.AspNetCore3.Identity</AssemblyName>
     <RootNamespace>Oogi2.AspNetCore3.Identity</RootNamespace>
     <ApplicationIcon />
@@ -27,6 +27,6 @@
   </PropertyGroup>
 
   <ItemGroup>    
-    <PackageReference Include="Oogi2" Version="2.1.0" />
+    <PackageReference Include="Oogi2" Version="2.1.4" />
   </ItemGroup>
 </Project>
